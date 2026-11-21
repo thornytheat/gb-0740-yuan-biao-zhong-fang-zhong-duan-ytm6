@@ -1,0 +1,9 @@
+@media print {
+  body { display: block; color: #181818; background: white; }
+  .rail, .command, .filters, header a { display: none; }
+  header, footer, th { position: static; color: black; background: white; }
+  .panel, .diff { color: black; background: white; }
+  .panel h2, .kpis strong, summary .state { color: black; }
+  .scroll { max-height: none; overflow: visible; }
+  details { break-inside: avoid; }
+}

@@ -1,0 +1,9 @@
+{% macro panel(title,rows) %}
+<section class="panel output"><h2>{{ title }} <small>{{ rows|length }} 项</small></h2>
+{% if rows %}<div class="scroll" tabindex="0" aria-label="{{ title }}"><table>
+{% set columns=rows[0].keys() %}
+<thead><tr>{% for key in columns %}<th scope="col">{{ key }}</th>{% endfor %}</tr></thead>
+<tbody>{% for row in rows %}<tr>{% for col in columns %}{% set value=row.get(col) %}<td {% if value is number %}class="num"{% endif %}>{% if value is none %}—{% elif value is iterable and value is not string and value is not mapping %}{{ value|join('、') or '—' }}{% else %}{{ value }}{% endif %}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>
+{% else %}<p class="empty">当前清单没有条目。</p>{% endif %}
+</section>
+{% endmacro %}

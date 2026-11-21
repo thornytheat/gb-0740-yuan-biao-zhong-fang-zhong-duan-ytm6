@@ -1,0 +1,491 @@
+{
+  "datasets": [
+    {
+      "id": "orders",
+      "revision": "build-04",
+      "inputs": []
+    },
+    {
+      "id": "facts",
+      "revision": "build-04",
+      "inputs": [
+        {
+          "dataset": "orders",
+          "lag": 0
+        }
+      ]
+    },
+    {
+      "id": "buyers",
+      "revision": "build-04",
+      "inputs": []
+    },
+    {
+      "id": "day0",
+      "revision": "build-04",
+      "inputs": [
+        {
+          "dataset": "facts",
+          "lag": 0
+        },
+        {
+          "dataset": "buyers",
+          "lag": 0
+        }
+      ]
+    },
+    {
+      "id": "day1",
+      "revision": "build-04",
+      "inputs": [
+        {
+          "dataset": "facts",
+          "lag": 1
+        }
+      ]
+    },
+    {
+      "id": "ops",
+      "revision": "build-04",
+      "inputs": [
+        {
+          "dataset": "day0",
+          "lag": 0
+        },
+        {
+          "dataset": "day1",
+          "lag": 0
+        }
+      ]
+    }
+  ],
+  "heads": [
+    {
+      "dataset": "orders",
+      "day": "2026-11-17",
+      "version": "s1",
+      "rows": 10
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-17",
+      "version": "f1",
+      "rows": 10
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-08",
+      "version": "s8",
+      "rows": 1008
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-08",
+      "version": "f8",
+      "rows": 1008
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-08",
+      "version": "b8",
+      "rows": 108
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-08",
+      "version": "d8",
+      "rows": 1116
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-09",
+      "version": "s9",
+      "rows": 1009
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-09",
+      "version": "f9",
+      "rows": 1009
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-09",
+      "version": "b9",
+      "rows": 109
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-09",
+      "version": "d9",
+      "rows": 1118
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-10",
+      "version": "s10",
+      "rows": 1010
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-10",
+      "version": "f10",
+      "rows": 1010
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-10",
+      "version": "b10",
+      "rows": 110
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-10",
+      "version": "d10",
+      "rows": 1120
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-11",
+      "version": "s11",
+      "rows": 1011
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-11",
+      "version": "f11",
+      "rows": 1011
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-11",
+      "version": "b11",
+      "rows": 111
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-11",
+      "version": "d11",
+      "rows": 1122
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-12",
+      "version": "s12",
+      "rows": 1012
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-12",
+      "version": "f12",
+      "rows": 1012
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-12",
+      "version": "b12",
+      "rows": 112
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-12",
+      "version": "d12",
+      "rows": 1124
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-13",
+      "version": "s13",
+      "rows": 1013
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-13",
+      "version": "f13",
+      "rows": 1013
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-13",
+      "version": "b13",
+      "rows": 113
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-13",
+      "version": "d13",
+      "rows": 1126
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-14",
+      "version": "s14",
+      "rows": 1014
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-14",
+      "version": "f14",
+      "rows": 1014
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-14",
+      "version": "b14",
+      "rows": 114
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-14",
+      "version": "d14",
+      "rows": 1128
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-15",
+      "version": "s15",
+      "rows": 1015
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-15",
+      "version": "f15",
+      "rows": 1015
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-15",
+      "version": "b15",
+      "rows": 115
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-15",
+      "version": "d15",
+      "rows": 1130
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-16",
+      "version": "s16",
+      "rows": 1016
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-16",
+      "version": "f16",
+      "rows": 1016
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-16",
+      "version": "b16",
+      "rows": 116
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-16",
+      "version": "d16",
+      "rows": 1132
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-17",
+      "version": "b17",
+      "rows": 117
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-17",
+      "version": "d17",
+      "rows": 1134
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-18",
+      "version": "s18",
+      "rows": 1018
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-18",
+      "version": "f18",
+      "rows": 1018
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-18",
+      "version": "b18",
+      "rows": 118
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-18",
+      "version": "d18",
+      "rows": 1136
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-19",
+      "version": "s19",
+      "rows": 1019
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-19",
+      "version": "f19",
+      "rows": 1019
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-19",
+      "version": "d19",
+      "rows": 1138
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-20",
+      "version": "s20",
+      "rows": 1020
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-20",
+      "version": "f20",
+      "rows": 1020
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-20",
+      "version": "b20",
+      "rows": 120
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-20",
+      "version": "d20",
+      "rows": 1140
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-21",
+      "version": "s21",
+      "rows": 1021
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-21",
+      "version": "f21",
+      "rows": 1021
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-21",
+      "version": "b21",
+      "rows": 121
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-21",
+      "version": "d21",
+      "rows": 1142
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-22",
+      "version": "s22",
+      "rows": 1022
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-22",
+      "version": "f22",
+      "rows": 1022
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-22",
+      "version": "b22",
+      "rows": 122
+    },
+    {
+      "dataset": "day0",
+      "day": "2026-11-22",
+      "version": "d22",
+      "rows": 1144
+    }
+  ],
+  "changes": [
+    {
+      "dataset": "orders",
+      "day": "2026-11-17",
+      "version": "s2",
+      "rows": 12,
+      "previous": "s1"
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-17",
+      "version": "s2",
+      "rows": 12,
+      "previous": "s1"
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-18",
+      "version": "stale18",
+      "rows": 1200,
+      "previous": "mistake"
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-19",
+      "version": "rev19",
+      "rows": "１,２０２",
+      "previous": "s19"
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-20",
+      "version": "arc20",
+      "rows": 1200,
+      "previous": "s20"
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-20",
+      "version": "arc21",
+      "rows": 1220,
+      "previous": "s20"
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-15",
+      "version": "wrong",
+      "rows": "N/A",
+      "previous": "b15"
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-21",
+      "version": "er",
+      "rows": "12",
+      "previous": "f21"
+    },
+    {
+      "dataset": "orders",
+      "day": "2026-11-23",
+      "version": "later",
+      "rows": 1300,
+      "previous": null
+    },
+    {
+      "dataset": "buyers",
+      "day": "2026-11-16",
+      "version": "legacy-16",
+      "count": 119,
+      "previous": "b16"
+    }
+  ],
+  "through": "2026-11-22"
+}

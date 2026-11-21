@@ -1,0 +1,21 @@
+:root {
+  --bg: #201b20;
+  --nav: #2b2228;
+  --panel: #292229;
+  --panel-light: #332a32;
+  --ink: #f2e7ef;
+  --dim: #c3a9bb;
+  --subdued: #ad919e;
+  --rule: #564451;
+  --rule-bright: #a1707c;
+  --accent: #ff9f93;
+  --accent-ink: #2a181d;
+  --success: #91d3ac;
+  --warn: #f0c68b;
+  --error: #ff9b9b;
+  --mono: "SFMono-Regular", "Menlo", "PingFang SC", monospace;
+  --paper: 100%;
+  --pad: 22px;
+  --gap: 16px;
+  --row: 32px;
+}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block section %}
+<section class="panel stream"><h2>$ replay schedule <small>{{ tasks|length }} 个分区</small></h2>
+  <div class="filters" aria-label="筛选计划">{% for key,name in [('', '全部'),('write','待写'),('reuse','复用'),('blocked','阻断')] %}<a href="{{ url_for('console',section='schedule',plan=meta['编号'],sample=sample,state=key or none) }}" {% if (filter_state or '')==key %}aria-current="true"{% endif %}>{{ name }}</a>{% endfor %}</div>
+  <div class="scroll" tabindex="0" aria-label="排程分区">
+    {% for task in tasks %}<details {% if loop.index<=2 %}open{% endif %}>
+      <summary><span class="state" data-state="{{ task['状态'] }}">{{ {'write':'+ 待写','reuse':'= 复用','blocked':'! 阻断'}[task['状态']] }}</span><span>{{ task['分区'] }}</span><span class="count">{% if task['计划'] %}{{ task['计划']['rows'] }} 行{% else %}{{ task['原因码'] }}{% endif %}</span></summary>
+      <div class="diff"><div><small>当前指针</small><code>{{ task['当前']['version'] if task['当前'] else '—' }}</code></div><div><small>目标指针</small><code>{{ task['计划']['version'] if task['计划'] else '—' }}</code></div></div>
+      {% if task['上游'] %}<ul class="upstream">{% for key,value in task['上游'].items() %}<li>{{ key }} · {{ value['version'] if value else '缺快照' }}</li>{% endfor %}</ul>{% endif %}
+    </details>{% else %}<p class="empty">该状态无分区。</p>{% endfor %}
+  </div>
+</section>
+<section class="panel trailer"><h2>$ replay balance</h2><div>输入行差 <strong>{{ summary['变更差'] }}</strong></div><div>分区差 <strong>{{ summary['分区差'] }}</strong></div><div>行数差 <strong>{{ summary['行数差'] }}</strong></div></section>
+{% endblock %}

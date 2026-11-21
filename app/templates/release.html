@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% from 'lines.jinja' import panel %}
+{% block section %}
+{{ panel('批次凭据',[meta]) }}
+<section class="panel output"><h2>近期计划</h2><ul class="versions">{% for item in latest %}<li><a href="{{ url_for('console',section='release',plan=item['编号']) }}">{{ item['编号'] }}</a> · {{ item['截止分区日'] }}</li>{% endfor %}</ul></section>
+{% endblock %}

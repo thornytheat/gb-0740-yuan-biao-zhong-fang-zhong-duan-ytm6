@@ -1,0 +1,43 @@
+{
+  "datasets": [
+    {
+      "id": "orders",
+      "revision": "build-04",
+      "inputs": []
+    },
+    {
+      "id": "facts",
+      "revision": "build-04",
+      "inputs": [
+        {
+          "dataset": "orders",
+          "lag": 0
+        }
+      ]
+    }
+  ],
+  "heads": [
+    {
+      "dataset": "orders",
+      "day": "2026-11-17",
+      "version": "s1",
+      "rows": 10
+    },
+    {
+      "dataset": "facts",
+      "day": "2026-11-17",
+      "version": "f1",
+      "rows": 10
+    }
+  ],
+  "changes": [
+    {
+      "dataset": "orders",
+      "day": "2026-11-17",
+      "version": "s2",
+      "rows": 12,
+      "previous": "s1"
+    }
+  ],
+  "through": "2026-11-17"
+}

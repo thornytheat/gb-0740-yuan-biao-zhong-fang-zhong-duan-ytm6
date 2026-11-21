@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% from 'lines.jinja' import panel %}
+{% block section %}
+{% for key in stage_columns %}{{ panel(key, [data[key]] if data[key] is mapping else data[key]) }}{% endfor %}
+<section class="panel trailer"><h2>$ replay scope</h2><div>截止 {{ meta['截止分区日'] }}</div><div>隔离 {{ summary['隔离'] }} 项</div></section>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block section %}
+{% set data=data['回滚'] %}
+<section class="panel checksum"><h2>$ replay verify-rollback</h2>
+  <dl>{% for key in ['演练前摘要','演练后摘要','回滚摘要'] %}<div><dt>{{ key }}</dt><dd>{{ data[key] }}</dd></div>{% endfor %}</dl>
+</section>
+<section class="panel trailer"><h2>演练判定</h2><div id="restored">{{ '恢复一致' if data['恢复一致'] else '恢复有差' }}</div><div>演练写入 {{ data['演练写入'] }}</div><div>范围外变动 {{ data['影响外变动']|length }}</div></section>
+{% endblock %}
