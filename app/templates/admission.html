@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% from 'lines.jinja' import panel %}
+{% block section %}
+<section class="panel stream"><h2>$ admission verdict <small>{{ verdicts|length }} 个来源</small></h2>
+  <div class="filters" aria-label="筛选准入">{% for code,name in [('', '全部'),('independent','独立交付'),('compare','旧键对照'),('blocked','不可放行')] %}<a href="{{ url_for('console',section='admission',plan=meta['编号'],sample=sample,state=code or none) }}" {% if (filter_state or '')==code %}aria-current="true"{% endif %}>{{ name }}</a>{% endfor %}</div>
+  <div class="scroll" tabindex="0" aria-label="准入判定">
+    {% for row in verdicts %}<details {% if loop.index<=2 %}open{% endif %}>
+      <summary><span class="state" data-state="{{ row['状态码'] }}">{{ {'independent':'✓ 独立交付','compare':'≈ 旧键对照','blocked':'! 不可放行'}[row['状态码']] }}</span><span>{{ row['来源'] }}</span><span class="count">{{ row['原因码']|join('、') or '证据齐备' }}</span></summary>
+      <div class="diff"><div><small>消费者升级</small><code>{{ row['消费者'] }}</code></div><div><small>新键覆盖</small><code>{{ row['新键覆盖'] }}</code></div><div><small>对照快照</small><code>{{ row['对照快照'] }}</code></div><div><small>回退锚点</small><code>{{ row['回退锚点'] }}</code></div></div>
+    </details>{% else %}<p class="empty">该状态无来源。</p>{% endfor %}
+  </div>
+</section>
+{{ panel('未切换来源', data['未切换']['来源']) }}
+<section class="panel output"><h2>未切换分区 <small>{{ data['未切换']['分区']|length }} 个</small></h2>
+{% if data['未切换']['分区'] %}<ul class="versions">{% for part in data['未切换']['分区'] %}<li>{{ part }}</li>{% endfor %}</ul>
+{% else %}<p class="empty">在途交付均已切换。</p>{% endif %}
+</section>
+<section class="panel checksum"><h2>$ admission scope</h2>
+  <dl>{% for key in ['上线日','数据截止','登记来源','在途交付','独立交付','旧键对照','不可放行','未切换来源','未切换分区'] %}<div><dt>{{ key }}</dt><dd>{{ coverage[key] }}</dd></div>{% endfor %}<div><dt>覆盖说明</dt><dd>{{ coverage['说明'] }}</dd></div></dl>
+</section>
+{% endblock %}

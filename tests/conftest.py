@@ -1,26 +1,26 @@
 import pytest
 from app.config import ROOT
 from app.main import create_app
-from app.modules.m7_release.service import compute
+from app.modules.m7_issue.service import compute
 
 
 @pytest.fixture(scope="session")
 def small():
-    return (ROOT / "sample_data" / "clean.json").read_bytes()
+    return (ROOT / "sample_data" / "single.json").read_bytes()
 
 
 @pytest.fixture(scope="session")
 def night():
-    return (ROOT / "sample_data" / "nightly.json").read_bytes()
+    return (ROOT / "sample_data" / "cutover.json").read_bytes()
 
 
 @pytest.fixture(scope="session")
-def clean(small):
+def single(small):
     return compute(small)
 
 
 @pytest.fixture(scope="session")
-def nightly(night):
+def cutover(night):
     return compute(night)
 
 

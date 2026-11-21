@@ -10,7 +10,7 @@ form.addEventListener('submit', async (event) => {
   event.preventDefault();
   const button = event.submitter;
   button.disabled = true;
-  feedback.value = '排程中…';
+  feedback.value = '判定中…';
   delete feedback.dataset.error;
   try {
     const response = await fetch(form.action, {method:'POST', body:new FormData(form)});
@@ -19,7 +19,7 @@ form.addEventListener('submit', async (event) => {
     window.location.assign(data.next);
   } catch (error) {
     feedback.dataset.error = '';
-    feedback.value = error.message || '排程失败，请重试。';
+    feedback.value = error.message || '判定失败，请重试。';
     button.disabled = false;
   }
 });

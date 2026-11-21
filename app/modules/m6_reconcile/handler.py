@@ -6,5 +6,4 @@ api = Blueprint("reconcile", __name__)
 
 @api.get("/api/reconcile/<plan>")
 def inspection(plan):
-    result = record(plan)
-    return jsonify({key: result[key] for key in ("分区勾稽",)})
+    return jsonify({"勾稽": record(plan)["勾稽"]})

@@ -1,10 +1,10 @@
 import os
 
 from app.config import MAX_BYTES, ROOT, SAMPLES, VERSION
-from app.keys import ReplayError
+from app.keys import AdmissionError
 from app.modules import VIEWS, register
-from app.modules.m7_release.service import execute
-from app.modules.m7_release.store import Catalog
+from app.modules.m7_issue.service import execute
+from app.modules.m7_issue.store import Catalog
 from app.web import fixture, record, repository
 from flask import Flask, abort, jsonify, render_template, request, url_for
 
@@ -12,7 +12,7 @@ from flask import Flask, abort, jsonify, render_template, request, url_for
 def create_app(options=None):
     app = Flask(__name__)
     app.config.update(
-        DB=os.environ.get("REPLAY_DB", ROOT / "instance" / "replay.sqlite3"),
+        DB=os.environ.get("ADMISSION_DB", ROOT / "instance" / "admission.sqlite3"),
         INPUTS=ROOT / "sample_data",
         MAX_CONTENT_LENGTH=MAX_BYTES + 32000,
     )
@@ -27,7 +27,7 @@ def create_app(options=None):
     def health():
         return {"status": "ok", "version": VERSION}
 
-    @app.errorhandler(ReplayError)
+    @app.errorhandler(AdmissionError)
     def domain_error(error):
         return jsonify(code=error.code, message=str(error)), 413 if error.code == "SIZE" else 422
 
@@ -37,13 +37,13 @@ def create_app(options=None):
 
     @app.get("/")
     @app.get("/console/<section>")
-    def console(section="schedule"):
+    def console(section="admission"):
         if section not in VIEWS:
             abort(404)
         key = request.args.get("plan")
-        result = record(key) if key else execute(repository(), fixture("nightly"))[0]
+        result = record(key) if key else execute(repository(), fixture("cutover"))[0]
         state = request.args.get("state")
-        rows = [task for task in result["排程"] if not state or task["状态"] == state]
+        rows = [row for row in result["准入"] if not state or row["状态码"] == state]
         return render_template(
             f"{section}.html",
             views=VIEWS,
@@ -51,28 +51,28 @@ def create_app(options=None):
             inputs=SAMPLES,
             data=result,
             meta=result["批次"],
-            sample=request.args.get("sample", "nightly"),
+            sample=request.args.get("sample", "cutover"),
             reused=request.args.get("reused") == "yes",
-            summary=result["分区勾稽"],
-            stage_columns=VIEWS[section][1],
-            tasks=rows,
+            coverage=result["覆盖范围"],
+            verdicts=rows,
             filter_state=state,
-            latest=repository().latest() if section == "release" else [],
+            stage_columns=VIEWS[section][1],
+            latest=repository().latest() if section == "issue" else [],
         )
 
-    @app.get("/api/plans")
+    @app.get("/api/admissions")
     def listing():
         return jsonify(repository().latest())
 
-    @app.post("/api/plans")
+    @app.post("/api/admissions")
     def plan():
         args = request.get_json(silent=True) if request.is_json else request.form
         if not hasattr(args, "get"):
-            raise ReplayError("JSON", "请选择样例或上传文件")
-        section = args.get("section", "schedule")
+            raise AdmissionError("JSON", "请选择样例或上传文件")
+        section = args.get("section", "admission")
         if not isinstance(section, str) or section not in VIEWS:
-            raise ReplayError("VIEW", "选择已有工作页")
-        sample = args.get("sample", "nightly")
+            raise AdmissionError("VIEW", "选择已有工作页")
+        sample = args.get("sample", "cutover")
         source = request.files.get("bundle")
         raw = source.read(MAX_BYTES + 1) if source and source.filename else fixture(sample)
         result, reused = execute(repository(), raw)
@@ -80,8 +80,8 @@ def create_app(options=None):
         return jsonify(
             id=key,
             reused=reused,
-            summary=result["分区勾稽"],
-            rollback=result["回滚"],
+            coverage=result["覆盖范围"],
+            rollback=result["回退"],
             next=url_for(
                 "console", section=section, plan=key, sample=sample, reused="yes" if reused else None
             ),
@@ -90,7 +90,7 @@ def create_app(options=None):
     @app.get("/api/export/<key>")
     def export(key):
         response = jsonify(record(key))
-        response.headers.set("Content-Disposition", "attachment", filename=f"replay-{key}.json")
+        response.headers.set("Content-Disposition", "attachment", filename=f"admission-{key}.json")
         return response
 
     return app

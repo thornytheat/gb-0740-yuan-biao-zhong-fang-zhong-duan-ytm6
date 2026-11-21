@@ -1,0 +1,43 @@
+{
+  "switch": {
+    "live": "2026-12-01",
+    "through": "2026-11-21"
+  },
+  "sources": [
+    {
+      "id": "east",
+      "consumers": 2,
+      "upgraded": 2,
+      "old_rows": 10,
+      "new_rows": 10,
+      "old_keys": ["R-E1"]
+    }
+  ],
+  "mappings": [
+    {
+      "source": "east",
+      "old": "R-E1",
+      "new": "R-3100",
+      "rows": 10,
+      "checked": true
+    }
+  ],
+  "comparisons": [
+    {
+      "source": "east",
+      "snapshot": "cmp-east-47",
+      "checksum": "c9f2east",
+      "keep_until": "2027-06-01",
+      "retained": true
+    }
+  ],
+  "deliveries": [
+    {
+      "source": "east",
+      "day": "2026-11-21",
+      "key": "new",
+      "version": "n-2111",
+      "anchor": "o-2111"
+    }
+  ]
+}

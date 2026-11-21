@@ -1,9 +1,11 @@
+import hashlib
+import json
 import re
 from datetime import date
 from unicodedata import normalize
 
 
-class ReplayError(ValueError):
+class AdmissionError(ValueError):
     def __init__(self, code, message):
         super().__init__(message)
         self.code = code
@@ -21,8 +23,8 @@ def day(value):
     return date.fromisoformat(value)
 
 
-def partition(dataset, date_text):
-    return f"{identifier(dataset)}@{day(date_text).isoformat()}"
+def partition(source, date_text):
+    return f"{identifier(source)}@{day(date_text).isoformat()}"
 
 
 def nonnegative_count(value):
@@ -35,3 +37,14 @@ def nonnegative_count(value):
     if number > 9_007_199_254_740_991:
         raise ValueError("行数超过单分区限制")
     return number
+
+
+def small_count(value):
+    if isinstance(value, bool) or not isinstance(value, int) or not 0 <= value <= 999:
+        raise ValueError("消费者数须为 0-999 整数")
+    return value
+
+
+def fingerprint(value):
+    serial = json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode()
+    return hashlib.sha256(serial).hexdigest()

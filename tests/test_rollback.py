@@ -1,40 +1,37 @@
-import pytest
-from app.keys import ReplayError
-from app.modules.m1_inventory.reader import read_bundle
-from app.modules.m1_inventory.service import heads
-from app.modules.m5_rollback.service import revert, stage_install
+from app.modules.m5_rollback.service import revert
 
 
-def test_restoration_attests_snapshot(clean):
-    row = clean["回滚"]
-    assert row["恢复一致"] and row["演练前摘要"] == row["回滚摘要"] != row["演练后摘要"]
+def test_restoration_attests_snapshot(single):
+    row = single["回退"]
+    assert row["恢复一致"] and row["当前摘要"] != row["回退后摘要"]
+    assert row["断链"] == [] and row["回退后新键残留"] == 0
 
 
-def test_unrelated_partitions_not_modified(nightly):
-    assert nightly["回滚"]["影响外变动"] == []
+def test_broken_anchor_listed(cutover):
+    row = cutover["回退"]
+    assert row["断链"] == ["northeast@2026-11-21"]
+    assert row["恢复一致"] is False and row["回退后新键残留"] == 1
 
 
-# TRAP-26
-def test_stale_snapshot_atomic(clean, small):
-    current = heads(read_bundle(small)["heads"])
-    current["facts@2026-11-17"] = {"version": "foreign", "rows": 99}
-    with pytest.raises(ReplayError) as exc:
-        stage_install(current, clean["排程"])
-    assert exc.value.code == "STALE_HEAD"
-    assert current["orders@2026-11-17"]["version"] == "s1"
+def test_unrelated_deliveries_not_modified(cutover, single):
+    assert cutover["回退"]["影响外变动"] == []
+    assert single["回退"]["影响外变动"] == []
 
 
-def test_new_part_is_deleted():
-    new = {"version": "r3", "rows": 4}
-    assert revert({"f@2026-11-17": new}, [("f@2026-11-17", None, new)]) == {}
+def test_revert_restores_original_region():
+    records = {"east@2026-11-21": {"key": "new", "version": "n-1", "anchor": "o-1"}}
+    assert revert(records) == {"east@2026-11-21": {"key": "old", "version": "o-1"}}
 
 
-def test_stale_revert_refuses_overwrite():
-    with pytest.raises(ReplayError) as exc:
-        revert({"k": {"version": "r3"}}, [("k", {"version": "r1"}, {"version": "r2"})])
-    assert exc.value.code == "STALE_ROLLBACK"
+def test_revert_keeps_old_and_broken():
+    records = {
+        "a@2026-11-21": {"key": "old", "version": "o-1", "anchor": None},
+        "b@2026-11-21": {"key": "new", "version": "n-1", "anchor": None},
+    }
+    restored = revert(records)
+    assert restored["a@2026-11-21"] == {"key": "old", "version": "o-1"}
+    assert restored["b@2026-11-21"] == {"key": "new", "version": "n-1"}
 
 
-def test_install_two_expected_versions(clean, small):
-    after, changes = stage_install(heads(read_bundle(small)["heads"]), clean["排程"])
-    assert len(changes) == 2 and [row["rows"] for row in after.values()] == [12, 12]
+def test_revert_idempotent(cutover, single):
+    assert cutover["回退"]["回退幂等"] and single["回退"]["回退幂等"]

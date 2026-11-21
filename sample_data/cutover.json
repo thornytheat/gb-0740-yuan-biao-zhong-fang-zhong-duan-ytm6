@@ -1,0 +1,274 @@
+{
+  "switch": {
+    "live": "2026-12-01",
+    "through": "2026-11-21"
+  },
+  "sources": [
+    {
+      "id": "east",
+      "consumers": 6,
+      "upgraded": 6,
+      "old_rows": 2048,
+      "new_rows": 2048,
+      "old_keys": ["R-E1", "R-E2"]
+    },
+    {
+      "id": "south",
+      "consumers": 6,
+      "upgraded": 4,
+      "old_rows": 1500,
+      "new_rows": 1500,
+      "old_keys": ["R-S1"]
+    },
+    {
+      "id": "north",
+      "consumers": 5,
+      "upgraded": 5,
+      "old_rows": 1800,
+      "new_rows": "１,２００",
+      "old_keys": ["R-N1"]
+    },
+    {
+      "id": "west",
+      "consumers": 3,
+      "upgraded": 3,
+      "old_rows": 900,
+      "new_rows": 900,
+      "old_keys": ["R-W1", "R-W2"]
+    },
+    {
+      "id": "central",
+      "consumers": 4,
+      "upgraded": 4,
+      "old_rows": 700,
+      "new_rows": 700,
+      "old_keys": ["R-C1"]
+    },
+    {
+      "id": "northeast",
+      "consumers": 2,
+      "upgraded": 2,
+      "old_rows": 300,
+      "new_rows": 300,
+      "old_keys": ["R-NE1"]
+    },
+    {
+      "id": "island",
+      "consumers": 1,
+      "upgraded": "N/A",
+      "old_rows": 50,
+      "new_rows": 50,
+      "old_keys": ["R-I1"]
+    },
+    {
+      "id": "harbor",
+      "consumers": 1,
+      "upgraded": 2,
+      "old_rows": 60,
+      "new_rows": 60,
+      "old_keys": ["R-H1"]
+    }
+  ],
+  "mappings": [
+    {
+      "source": "east",
+      "old": "R-E1",
+      "new": "R-3100",
+      "rows": 1024,
+      "checked": true
+    },
+    {
+      "source": "east",
+      "old": "R-E1",
+      "new": "R-3100",
+      "rows": 1024,
+      "checked": true
+    },
+    {
+      "source": "east",
+      "old": "R-E2",
+      "new": "R-3200",
+      "rows": 1024,
+      "checked": true
+    },
+    {
+      "source": "south",
+      "old": "R-S1",
+      "new": "R-4400",
+      "count": 1500,
+      "checked": true
+    },
+    {
+      "source": "north",
+      "old": "R-N1",
+      "new": "R-5100",
+      "rows": 1800,
+      "checked": true
+    },
+    {
+      "source": "west",
+      "old": "R-W1",
+      "new": "R-5200",
+      "rows": 450,
+      "checked": true
+    },
+    {
+      "source": "west",
+      "old": "R-W1",
+      "new": "R-5300",
+      "rows": 450,
+      "checked": true
+    },
+    {
+      "source": "central",
+      "old": "R-C1",
+      "new": "R-4200",
+      "rows": 700,
+      "checked": true
+    },
+    {
+      "source": "northeast",
+      "old": "R-NE1",
+      "new": "R-2300",
+      "rows": 300,
+      "checked": true
+    },
+    {
+      "source": "ghost",
+      "old": "R-G1",
+      "new": "R-9900",
+      "rows": 10,
+      "checked": true
+    },
+    {
+      "source": "south",
+      "old": "R-S9",
+      "new": "R-4900",
+      "rows": 10,
+      "checked": true
+    }
+  ],
+  "comparisons": [
+    {
+      "source": "east",
+      "snapshot": "cmp-east-47",
+      "checksum": "c9f2east",
+      "keep_until": "2027-06-01",
+      "retained": true
+    },
+    {
+      "source": "south",
+      "snapshot": "cmp-south-47",
+      "checksum": "a41bsouth",
+      "keep_until": "2027-06-01",
+      "retained": true
+    },
+    {
+      "source": "north",
+      "snapshot": "cmp-north-47",
+      "checksum": "77c0north",
+      "keep_until": "2027-06-01",
+      "retained": true
+    },
+    {
+      "source": "west",
+      "snapshot": "cmp-west-47",
+      "checksum": "9d21west",
+      "keep_until": "2027-06-01",
+      "retained": true
+    },
+    {
+      "source": "central",
+      "snapshot": "cmp-central-46",
+      "checksum": null,
+      "keep_until": "2026-11-15",
+      "retained": false
+    },
+    {
+      "source": "northeast",
+      "snapshot": "cmp-ne-47",
+      "checksum": "55e8ne",
+      "keep_until": "2027-06-01",
+      "retained": true
+    }
+  ],
+  "deliveries": [
+    {
+      "source": "east",
+      "day": "2026-11-20",
+      "key": "new",
+      "version": "n-2011",
+      "anchor": "o-2011"
+    },
+    {
+      "source": "east",
+      "day": "2026-11-21",
+      "key": "new",
+      "version": "n-2111",
+      "anchor": "o-2111"
+    },
+    {
+      "source": "east",
+      "day": "2026-11-25",
+      "key": "new",
+      "version": "n-2511",
+      "anchor": "o-2511"
+    },
+    {
+      "source": "south",
+      "day": "2026-11-21",
+      "key": "old",
+      "version": "o-31",
+      "anchor": null
+    },
+    {
+      "source": "south",
+      "day": "2026-11-21",
+      "key": "old",
+      "version": "o-31",
+      "anchor": null
+    },
+    {
+      "source": "north",
+      "day": "2026-11-20",
+      "key": "old",
+      "version": "o-77",
+      "anchor": null
+    },
+    {
+      "source": "north",
+      "day": "2026-11-20",
+      "key": "old",
+      "version": "o-78",
+      "anchor": null
+    },
+    {
+      "source": "north",
+      "day": "2026-11-21",
+      "key": "old",
+      "version": "o-79",
+      "anchor": null
+    },
+    {
+      "source": "west",
+      "day": "2026-11-21",
+      "key": "old",
+      "version": "o-55",
+      "anchor": null
+    },
+    {
+      "source": "central",
+      "day": "2026-11-20",
+      "key": "new",
+      "version": "n-c20",
+      "anchor": "o-c20"
+    },
+    {
+      "source": "northeast",
+      "day": "2026-11-21",
+      "key": "new",
+      "version": "n-ne21",
+      "anchor": null
+    }
+  ]
+}

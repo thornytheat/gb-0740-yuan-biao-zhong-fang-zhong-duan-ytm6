@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% from 'lines.jinja' import panel %}
+{% block section %}
+<section class="panel trailer"><h2>$ admission source</h2><div>三务同读准入 <code>{{ meta['编号'] }}</code></div><div>上线 {{ meta['上线日'] }}</div><div>截止 {{ meta['数据截止'] }}</div></section>
+{% for key in stage_columns %}{{ panel(key, data[key]) }}{% endfor %}
+{% endblock %}

@@ -1,5 +1,5 @@
 from app.config import SAMPLES
-from app.keys import ReplayError
+from app.keys import AdmissionError
 from flask import abort, current_app
 
 
@@ -16,5 +16,5 @@ def record(key):
 
 def fixture(slug):
     if not isinstance(slug, str) or slug not in SAMPLES:
-        raise ReplayError("SAMPLE", "请选择已登记的清单")
+        raise AdmissionError("SAMPLE", "请选择已登记的清单")
     return (current_app.config["INPUTS"] / f"{slug}.json").read_bytes()

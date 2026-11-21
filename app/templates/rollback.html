@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block section %}
-{% set data=data['回滚'] %}
-<section class="panel checksum"><h2>$ replay verify-rollback</h2>
-  <dl>{% for key in ['演练前摘要','演练后摘要','回滚摘要'] %}<div><dt>{{ key }}</dt><dd>{{ data[key] }}</dd></div>{% endfor %}</dl>
+{% set data=data['回退'] %}
+<section class="panel checksum"><h2>$ admission verify-rollback</h2>
+  <dl>{% for key in ['当前摘要','回退后摘要'] %}<div><dt>{{ key }}</dt><dd>{{ data[key] }}</dd></div>{% endfor %}</dl>
 </section>
-<section class="panel trailer"><h2>演练判定</h2><div id="restored">{{ '恢复一致' if data['恢复一致'] else '恢复有差' }}</div><div>演练写入 {{ data['演练写入'] }}</div><div>范围外变动 {{ data['影响外变动']|length }}</div></section>
+<section class="panel trailer"><h2>回退判定</h2><div id="restored">{{ '可全部回退' if data['恢复一致'] else '回退有断链' }}</div><div>新键交付 {{ data['新键交付'] }}</div><div>影响外变动 {{ data['影响外变动']|length }}</div></section>
+{% if data['断链'] %}<section class="panel output"><h2>断链分区 <small>{{ data['断链']|length }} 个</small></h2><ul class="versions">{% for part in data['断链'] %}<li>{{ part }}</li>{% endfor %}</ul></section>{% endif %}
 {% endblock %}

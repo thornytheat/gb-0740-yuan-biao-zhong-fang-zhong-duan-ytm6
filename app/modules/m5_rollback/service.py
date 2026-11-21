@@ -1,47 +1,47 @@
-from app.keys import ReplayError
-from app.modules.m3_fingerprint.service import fingerprint
+from app.keys import fingerprint
 
 
-def stage_install(heads, tasks):
-    for item in tasks:
-        if item["状态"] == "write" and heads.get(item["分区"]) != item["当前"]:
-            raise ReplayError("STALE_HEAD", f"指针已经变动 {item['分区']}")
-    result = dict(heads)
-    changed = []
-    for item in tasks:
-        if item["状态"] == "write":
-            key = item["分区"]
-            result[key] = item["计划"]
-            changed.append((key, item["当前"], item["计划"]))
-    return result, changed
+def anchor_defects(deliveries):
+    defects = {}
+    for key, record in sorted(deliveries.items()):
+        if record["key"] == "new" and record["anchor"] is None:
+            defects.setdefault(key.split("@")[0], []).append(key)
+    return defects
 
 
-def revert(new_heads, changes):
-    for key, _, published in changes:
-        if new_heads.get(key) != published:
-            raise ReplayError("STALE_ROLLBACK", f"新版本已经替换 {key}")
-    result = dict(new_heads)
-    for key, old, _ in reversed(changes):
-        if old is None:
-            del result[key]
+def revert(records):
+    """已交付结果回退到原区域：新键交付恢复为锚点登记的旧键版本。"""
+    result = {}
+    for key, record in records.items():
+        if record["key"] == "new" and record.get("anchor") is not None:
+            result[key] = {"key": "old", "version": record["anchor"]}
         else:
-            result[key] = old
+            result[key] = {"key": record["key"], "version": record["version"]}
     return result
 
 
-def rehearse(heads, tasks):
-    after, changes = stage_install(heads, tasks)
-    restored = revert(after, changes)
-    covered = {item["分区"] for item in tasks if item["状态"] == "write"}
+def rehearse(deliveries):
+    defects = anchor_defects(deliveries)
+    broken = sorted(key for keys in defects.values() for key in keys)
+    current = {
+        key: {"key": record["key"], "version": record["version"]}
+        for key, record in sorted(deliveries.items())
+    }
+    restored = revert(deliveries)
+    residue = sorted(key for key, record in restored.items() if record["key"] != "old")
+    outside = sorted(
+        key
+        for key in current
+        if current[key] != restored[key] and current[key]["key"] != "new"
+    )
     return {
-        "演练写入": len(changes),
-        "演练前摘要": fingerprint(heads),
-        "演练后摘要": fingerprint(after),
-        "回滚摘要": fingerprint(restored),
-        "恢复一致": heads == restored,
-        "影响外变动": sorted(
-            key
-            for key in heads.keys() | after.keys()
-            if heads.get(key) != after.get(key) and key not in covered
-        ),
+        "交付指针": len(current),
+        "新键交付": sum(1 for record in current.values() if record["key"] == "new"),
+        "断链": broken,
+        "当前摘要": fingerprint(current),
+        "回退后摘要": fingerprint(restored),
+        "回退后新键残留": len(residue),
+        "影响外变动": outside,
+        "回退幂等": revert(restored) == restored,
+        "恢复一致": not broken and not residue and not outside,
     }
